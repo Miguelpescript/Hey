@@ -236,11 +236,9 @@ class ChartingState extends MusicBeatState
 		// Paths.clearMemory();
 
 		// Updating Discord Rich Presence
-
 		#if desktop
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
-                #end
-
+		#end
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
@@ -1907,7 +1905,7 @@ class ChartingState extends MusicBeatState
 			//AWW YOU MADE IT SEXY <3333 THX SHADMAR
 
 			if(!blockInput){
-				if(FlxG.keys.justPressed.RIGHT #if android || _virtualpad.buttonRight.pressed && _virtualpad.buttonZ.pressed #end){
+				if(FlxG.keys.justPressed.RIGHT #if android || _virtualpad.buttonRight.justPressed && _virtualpad.buttonZ.pressed #end){
 					curQuant++;
 					if(curQuant>quantizations.length-1)
 						curQuant = 0;
@@ -1915,7 +1913,7 @@ class ChartingState extends MusicBeatState
 					quantization = quantizations[curQuant];
 				}
 
-				if(FlxG.keys.justPressed.LEFT  #if android || _virtualpad.buttonLeft.pressed && _virtualpad.buttonZ.pressed #end){
+				if(FlxG.keys.justPressed.LEFT  #if android || _virtualpad.buttonLeft.justPressed && _virtualpad.buttonZ.pressed #end){
 					curQuant--;
 					if(curQuant<0)
 						curQuant = quantizations.length-1;
@@ -1993,12 +1991,13 @@ class ChartingState extends MusicBeatState
 				}
 			}
 			var shiftThing:Int = 1;
+			var fecas = _virtualpad.buttonZ.pressed;
 			if (FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonY.pressed #end)
 				shiftThing = 4;
 
-			if (FlxG.keys.justPressed.D #if android || _virtualpad.buttonRight.justPressed #end)
+			if (FlxG.keys.justPressed.D #if android || _virtualpad.buttonRight.justPressed && fecas! #end)
 				changeSection(curSec + shiftThing);
-			if (FlxG.keys.justPressed.A #if android || _virtualpad.buttonLeft.justPressed #end) {
+			if (FlxG.keys.justPressed.A #if android || _virtualpad.buttonLeft.justPressed && fecas! #end) {
 				if(curSec <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
