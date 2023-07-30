@@ -1995,9 +1995,9 @@ class ChartingState extends MusicBeatState
 			if (FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonY.pressed #end)
 				shiftThing = 4;
 
-			if (FlxG.keys.justPressed.D #if android || _virtualpad.buttonRight.justPressed && fecas! #end)
+			if (FlxG.keys.justPressed.D #if android || _virtualpad.buttonRight.justPressed && !fecas #end)
 				changeSection(curSec + shiftThing);
-			if (FlxG.keys.justPressed.A #if android || _virtualpad.buttonLeft.justPressed && fecas! #end) {
+			if (FlxG.keys.justPressed.A #if android || _virtualpad.buttonLeft.justPressed && !fecas #end) {
 				if(curSec <= 0) {
 					changeSection(_song.notes.length-1);
 				} else {
