@@ -1,6 +1,8 @@
 package editors;
 
+#if desktop
 import Discord.DiscordClient;
+#end
 import flash.geom.Rectangle;
 import haxe.Json;
 import haxe.format.JsonParser;
@@ -233,10 +235,8 @@ class ChartingState extends MusicBeatState
 
 		// Paths.clearMemory();
 
-		#if desktop
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Chart Editor", StringTools.replace(_song.song, '-', ' '));
-		#end
 
 		vortex = FlxG.save.data.chart_vortex;
 		ignoreWarnings = FlxG.save.data.ignoreWarnings;
@@ -1721,12 +1721,12 @@ class ChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
-			if (FlxG.keys.justPressed.ESCAPE #if android || _virtualpad.buttonB.justPressed #end)
+			if (FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justReleased.BACK #end)
 			{
 				autosaveSong();
 				LoadingState.loadAndSwitchState(new editors.EditorPlayState(sectionStartTime()));
 			}
-			if (FlxG.keys.justPressed.ENTER #if android || _virtualpad.buttonA.justPressed #end)
+			if (FlxG.keys.justPressed.ENTER #if android || _virtualpad.buttonX.justPressed #end)
 			{
 				autosaveSong();
 				FlxG.mouse.visible = false;
@@ -1751,7 +1751,7 @@ class ChartingState extends MusicBeatState
 			}
 
 
-			if (FlxG.keys.justPressed.BACKSPACE #if android || FlxG.android.justReleased.BACK #end) {
+			if (FlxG.keys.justPressed.BACKSPACE #if android || _virtualpad.buttonB.justPressed #end) {
 				PlayState.chartingMode = false;
 				MusicBeatState.switchState(new editors.MasterEditorMenu());
 				FlxG.sound.playMusic(Paths.music('freakyMenu'));
@@ -1765,11 +1765,11 @@ class ChartingState extends MusicBeatState
 
 
 
-			if((FlxG.keys.justPressed.Z #if android || _virtualpad.buttonZ.justPressed #end) && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
+			if((FlxG.keys.justPressed.Z #if android || _virtualpad.buttonD.justPressed #end) && curZoom > 0 && !FlxG.keys.pressed.CONTROL) {
 				--curZoom;
 				updateZoom();
 			}
-			if(FlxG.keys.justPressed.X #if android || _virtualpad.buttonC.justPressed #end && curZoom < zoomList.length-1) {
+			if(FlxG.keys.justPressed.X #if android || _virtualpad.buttonV.justPressed #end && curZoom < zoomList.length-1) {
 				curZoom++;
 				updateZoom();
 			}
@@ -1790,7 +1790,7 @@ class ChartingState extends MusicBeatState
 				}
 			}
 
-			if (FlxG.keys.justPressed.SPACE #if android || _virtualpad.buttonX.justPressed #end)
+			if (FlxG.keys.justPressed.SPACE #if android || _virtualpad.buttonA.justPressed #end)
 			{
 				if (FlxG.sound.music.playing)
 				{
@@ -1903,7 +1903,7 @@ class ChartingState extends MusicBeatState
 			//AWW YOU MADE IT SEXY <3333 THX SHADMAR
 
 			if(!blockInput){
-				if(FlxG.keys.justPressed.RIGHT #if android || _virtualpad.buttonRight.justPressed #end){
+				if(FlxG.keys.justPressed.RIGHT #if android || _virtualpad.buttonRight.pressed && _virtualpad.buttonZ.pressed #end){
 					curQuant++;
 					if(curQuant>quantizations.length-1)
 						curQuant = 0;
@@ -1911,7 +1911,7 @@ class ChartingState extends MusicBeatState
 					quantization = quantizations[curQuant];
 				}
 
-				if(FlxG.keys.justPressed.LEFT  #if android || _virtualpad.buttonLeft.justPressed #end){
+				if(FlxG.keys.justPressed.LEFT  #if android || _virtualpad.buttonLeft.pressed && _virtualpad.buttonZ.pressed #end){
 					curQuant--;
 					if(curQuant<0)
 						curQuant = quantizations.length-1;
